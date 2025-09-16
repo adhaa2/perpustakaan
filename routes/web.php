@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +20,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/redirect-after-login', function () {
+    if (Auth::user()->role === 'admin') {
+        return redirect()->route('admin.dashboard');
+    }
+    return redirect()->route('dashboard');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -29,3 +34,25 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::middleware(['auth'])->group(function () {
+    // user dashboard biasa
+    Route::get('/dashboard', function () {
+        return view('dashboard'); // resources/views/dashboard.blade.php (user)
+    })->name('dashboard');
+});
+
+// admin routes
+Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
+    // tambahkan route admin lainnya di sini
+});
+
+// route helper setelah login
+Route::get('/redirect-after-login', function () {
+    $user = Auth::user();
+    if ($user && $user->role === 'admin') {
+        return redirect()->route('admin.dashboard');
+    }
+    return redirect()->route('dashboard');
+})->middleware('auth');
