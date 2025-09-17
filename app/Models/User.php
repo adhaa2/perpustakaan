@@ -10,7 +10,13 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+    public function loans()
+    {
+        return $this->hasMany(Loan::class, 'user_id');
+    }
+
     use HasApiTokens, HasFactory, Notifiable;
+
 
     /**
      * The attributes that are mass assignable.
