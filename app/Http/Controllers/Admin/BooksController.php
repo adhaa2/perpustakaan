@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Book;
 
-class BookController extends Controller
+class BooksController extends Controller
 {
     public function index()
     {
