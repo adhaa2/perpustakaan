@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     public function loans()
     {
-        return $this->hasMany(Loan::class, 'user_id');
+        return $this->hasMany(\App\Models\Loan::class);
     }
 
     use HasApiTokens, HasFactory, Notifiable;

@@ -19,6 +19,7 @@ class Book extends Model
 
     public function loans()
     {
-        return $this->hasMany(Loan::class, 'buku_id');
+        return $this->hasMany(\App\Models\Loan::class, 'buku_id');
     }
+
 }

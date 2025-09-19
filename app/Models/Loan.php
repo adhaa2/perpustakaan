@@ -5,9 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Loan extends Model
 {
     use HasFactory;
+
+    protected $table = 'loans';
 
     protected $fillable = [
         'user_id',
@@ -16,21 +19,24 @@ class Loan extends Model
         'tanggal_jatuh_tempo',
         'tanggal_dikembalikan',
         'status',
-    ];
-
-    protected $casts = [
-        'tanggal_pinjam' => 'date',
-        'tanggal_jatuh_tempo' => 'date',
-        'tanggal_dikembalikan' => 'date',
+        'keterangan',
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(\App\Models\User::class);
     }
 
-    public function book()
+    public function buku()
     {
-        return $this->belongsTo(Book::class, 'buku_id');
+        // Pastikan Model Book bernama App\Models\Book
+        return $this->belongsTo(\App\Models\Book::class, 'buku_id');
     }
+
+    // (Opsional) casting tanggal
+    protected $casts = [
+        'tanggal_pinjam' => 'datetime',
+        'tanggal_jatuh_tempo' => 'datetime',
+        'tanggal_dikembalikan' => 'datetime',
+    ];
 }

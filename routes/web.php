@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\BooksController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\LoanController;
 
 
 /*
@@ -70,3 +71,8 @@ Route::middleware('auth')->group(function() {
 });
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
 Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/loans', [LoanController::class, 'index'])->name('loans.index');
+    Route::post('/loans', [LoanController::class, 'store'])->name('loans.store');
+});
