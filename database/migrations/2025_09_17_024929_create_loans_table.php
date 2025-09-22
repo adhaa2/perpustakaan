@@ -14,7 +14,9 @@ return new class extends Migration {
             $table->date('tanggal_pinjam')->nullable();
             $table->date('tanggal_jatuh_tempo')->nullable();
             $table->date('tanggal_dikembalikan')->nullable();
-            $table->enum('status', ['dipinjam', 'dikembalikan', 'terlambat'])->default('dipinjam');
+            $table->enum('status', ['pending', 'dipinjam', 'dikembalikan', 'terlambat', 'ditolak'])
+                ->default('pending');
+
             $table->timestamps();
 
             $table->index('user_id');

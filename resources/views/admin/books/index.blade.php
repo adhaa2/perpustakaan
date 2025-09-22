@@ -42,7 +42,7 @@
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $book->stok }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right">
 
-                                    <a href="{{ route('admin.books.edit', $book) }}" class="inline-block px-3 py-1 bg-yellow-900 text-black rounded">Edit</a>
+                                    <a href="{{ route('admin.books.edit', $book) }}" class="inline-block px-3 py-1 bg-yellow-500 text-white rounded">Edit</a>
                                     
                                     <form action="{{ route('admin.books.destroy', $book) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin ingin menghapus buku ini?');">
                                         @csrf

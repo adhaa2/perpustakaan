@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\BooksController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\LoanController;
+use App\Http\Controllers\Admin\LoanController as AdminLoanController;
 
 
 /*
@@ -75,4 +76,13 @@ Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show')
 Route::middleware('auth')->group(function () {
     Route::get('/loans', [LoanController::class, 'index'])->name('loans.index');
     Route::post('/loans', [LoanController::class, 'store'])->name('loans.store');
+});
+
+Route::prefix('admin')->middleware(['auth','is_admin'])->name('admin.')->group(function () {
+    Route::get('/loans', [AdminLoanController::class, 'index'])->name('loans.index');
+    Route::get('/loans/{loan}', [AdminLoanController::class, 'show'])->name('loans.show');
+
+    Route::post('/loans/{loan}/approve', [AdminLoanController::class, 'approve'])->name('loans.approve');
+    Route::post('/loans/{loan}/reject', [AdminLoanController::class, 'reject'])->name('loans.reject');
+    Route::post('/loans/{loan}/return', [AdminLoanController::class, 'markReturned'])->name('loans.return');
 });

@@ -62,7 +62,7 @@ class LoanController extends Controller
             'buku_id' => $buku->id,
             'tanggal_pinjam' => $tanggal_pinjam,
             'tanggal_jatuh_tempo' => $tanggal_jatuh_tempo,
-            'status' => 'dipinjam',
+            'status' => 'pending',
             // 'keterangan' => $request->keterangan,
         ]);
 

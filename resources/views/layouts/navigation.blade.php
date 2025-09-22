@@ -22,6 +22,9 @@
                         <x-nav-link :href="route('admin.books.index')" :active="request()->routeIs('admin.books.*')">
                             {{ __('Kelola Buku') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('admin.loans.index')" :active="request()->routeIs('admin.loans.*')">
+                            {{ __('Kelola Peminjaman') }}
+                        </x-nav-link>
                     @endif
 
                     @if(Auth::check() && Auth::user()->role === 'user')
