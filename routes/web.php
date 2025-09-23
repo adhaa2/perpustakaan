@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\BooksController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\Admin\LoanController as AdminLoanController;
+use App\Http\Controllers\Admin\DashboardController;
 
 
 /*
@@ -86,3 +87,10 @@ Route::prefix('admin')->middleware(['auth','is_admin'])->name('admin.')->group(f
     Route::post('/loans/{loan}/reject', [AdminLoanController::class, 'reject'])->name('loans.reject');
     Route::post('/loans/{loan}/return', [AdminLoanController::class, 'markReturned'])->name('loans.return');
 });
+
+Route::middleware(['auth','is_admin'])
+     ->prefix('admin')
+     ->name('admin.')
+     ->group(function(){
+         Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
+     });

@@ -12,7 +12,7 @@
                 <table class="min-w-full divide-y">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-4 py-2">#</th>
+                            <th class="px-4 py-2">No</th>
                             <th class="px-4 py-2">User</th>
                             <th class="px-4 py-2">Buku</th>
                             <th class="px-4 py-2">Tanggal Pinjam</th>
