@@ -14,6 +14,7 @@ class Book extends Model
         'pengarang',
         'penerbit',
         'tahun_terbit',
+        'path_sampul',
         'stok',
     ];
 

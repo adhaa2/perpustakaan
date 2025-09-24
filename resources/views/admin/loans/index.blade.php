@@ -5,6 +5,28 @@
 
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <!-- search -->
+             <form action="{{ route('admin.loans.index') }}" method="GET" class="mb-4">
+    <div class="flex gap-2">
+        <input type="text" name="q" value="{{ $q ?? '' }}"
+               placeholder="Cari nama peminjam atau judul buku..."
+               class="w-full border rounded p-2">
+
+        {{-- Pertahankan filter status saat search jika ada --}}
+        @if(!empty($status))
+            <input type="hidden" name="status" value="{{ $status }}">
+        @endif
+
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Cari</button>
+
+        @if(!empty($q))
+            {{-- Reset: tetap pertahankan status jika ada --}}
+            <a href="{{ route('admin.loans.index', $status ? ['status' => $status] : []) }}"
+               class="px-4 py-2 bg-gray-200 rounded">Reset</a>
+        @endif
+    </div>
+</form>
+
             @if(session('success')) <div class="mb-4 p-3 bg-green-100 text-green-800 rounded">{{ session('success') }}</div> @endif
             @if(session('error')) <div class="mb-4 p-3 bg-red-100 text-red-800 rounded">{{ session('error') }}</div> @endif
 

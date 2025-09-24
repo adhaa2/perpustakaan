@@ -70,9 +70,10 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
 Route::middleware('auth')->group(function() {
     Route::get('/books', [BookController::class, 'index'])->name('books.index');
     Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
+    Route::post('/books', [BookController::class, 'store'])->name('books.store');
 });
-Route::get('/books', [BookController::class, 'index'])->name('books.index');
-Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
+// Route::get('/books', [BookController::class, 'index'])->name('books.index');
+// Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/loans', [LoanController::class, 'index'])->name('loans.index');

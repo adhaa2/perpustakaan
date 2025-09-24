@@ -6,16 +6,17 @@
     <div class="py-6">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow sm:rounded-lg p-6 flex flex-col sm:flex-row gap-6">
-                <!-- <div class="sm:w-1/3">
-                    @if(!empty($book->path_sampul))
-                        <img src="{{ asset('storage/' . $book->path_sampul) }}" alt="Sampul {{ $book->judul }}"
-                            class="w-full h-auto rounded">
-                    @else
-                        <div class="w-full h-64 bg-gray-100 flex items-center justify-center text-gray-400 rounded">
-                            Tidak ada sampul
-                        </div>
-                    @endif
-                </div> -->
+                <div class="sm:w-1/3">
+                        @if(!empty($book->path_sampul))
+                            <img src="{{ $book->path_sampul }}" 
+                            alt="Sampul {{ $book->judul }}" 
+                            class="h-50 w-full object-contain rounded mb-3 bg-gray-50 p-1">
+                        @else
+                            <div class="h-48 w-full bg-gray-100 flex items-center justify-center text-gray-400 rounded mb-3">
+                                Tidak ada sampul
+                            </div>
+                        @endif
+                </div>
 
                     <div class="sm:flex-1">
                         <h3 class="text-2xl font-bold mb-2">{{ $book->judul }}</h3>

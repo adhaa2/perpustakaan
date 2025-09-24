@@ -17,13 +17,13 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 @forelse($books as $book)
                     <div class="bg-white rounded-lg shadow p-4 flex flex-col">
-                        <!-- @if(!empty($book->path_sampul))
-                            <img src="{{ asset('storage/'.$book->path_sampul) }}" alt="Sampul {{ $book->judul }}" class="h-48 w-full object-cover rounded mb-3">
+                        @if(!empty($book->path_sampul))
+                            <img src="{{ $book->path_sampul }}" alt="Sampul {{ $book->judul }}" class="h-48 w-full object-cover rounded mb-3">
                         @else
                             <div class="h-48 w-full bg-gray-100 flex items-center justify-center text-gray-400 rounded mb-3">
                                 Tidak ada sampul
                             </div>
-                        @endif -->
+                        @endif
 
                         <h3 class="font-semibold text-lg">{{ $book->judul }}</h3>
                         <p class="text-sm text-gray-600">{{ $book->pengarang ?? '—' }}</p>

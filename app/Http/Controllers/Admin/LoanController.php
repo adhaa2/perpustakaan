@@ -16,24 +16,35 @@ class LoanController extends Controller
         $this->middleware(['auth','is_admin']);
     }
 
-    // 1) daftar pinjaman (filter pending/all)
+ 
     public function index(Request $request)
     {
         $status = $request->get('status'); // optional: ?status=pending
+        $q = trim($request->get('q')); // optional search query
         $query = Loan::with('buku','user')->orderBy('created_at','desc');
 
         if ($status) $query->where('status', $status);
 
+        if ($q) {
+            $query->whereHas('buku', function($sub) use ($q) {
+                $sub->where('judul', 'like', "%{$q}%")
+                    ->orWhere('pengarang', 'like', "%{$q}%")
+                    ->orWhere('penerbit', 'like', "%{$q}%");
+            })->orWhereHas('user', function($sub) use ($q) {
+                $sub->where('name', 'like', "%{$q}%")
+                    ->orWhere('email', 'like', "%{$q}%");
+            });
+        }
         $loans = $query->paginate(15)->withQueryString();
 
-        return view('admin.loans.index', compact('loans','status'));
+        return view('admin.loans.index', compact('loans','status', 'q'));
     }
 
     // 2) tampilan detail pinjaman (opsional)
     public function show(Loan $loan)
     {
         $loan->load('buku','user');
-        return view('admin.loans.show', compact('loan'));
+        return view('admin.loans.show', compact('loan', 'q'));
     }
 
     // 3) Approve => ubah status menjadi dipinjam + kurangi stok

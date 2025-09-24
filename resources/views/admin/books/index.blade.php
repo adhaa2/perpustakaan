@@ -5,6 +5,22 @@
 
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+            <!-- search -->
+            <form action="{{ route('admin.books.index') }}" method="GET" class="mb-6">
+                <div class="flex gap-2">
+                    <input type="text" name="q" value="{{ $q ?? '' }}" placeholder="Cari judul, pengarang, penerbit..."
+                        class="w-full border rounded p-2">
+
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Cari</button>
+
+                    @if(!empty($q))
+                        <a href="{{ route('admin.books.index') }}" class="px-4 py-2 bg-gray-200 rounded">Reset</a>
+                    @endif
+                </div>
+            </form>
+
+
             <!-- flash -->
             @if(session('success'))
                 <div class="mb-4 p-3 bg-green-100 text-green-800 rounded">{{ session('success') }}</div>
@@ -15,7 +31,8 @@
 
             <div class="mb-4 flex justify-between items-center">
                 <div class="text-lg font-medium">Daftar Buku</div>
-                <a href="{{ route('admin.books.create') }}" class="px-4 py-2 bg-blue-600 text-blue rounded">Tambah Buku</a>
+                <a href="{{ route('admin.books.create') }}" class="px-4 py-2 bg-blue-600 text-blue rounded">Tambah
+                    Buku</a>
             </div>
 
             <div class="bg-white shadow overflow-hidden sm:rounded-lg">
@@ -34,7 +51,9 @@
                     <tbody class="bg-white divide-y divide-gray-200">
                         @forelse($books as $book)
                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $loop->iteration + ($books->currentPage()-1) * $books->perPage() }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {{ $loop->iteration + ($books->currentPage() - 1) * $books->perPage() }}
+                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $book->judul }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $book->pengarang }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $book->penerbit }}</td>
@@ -42,9 +61,11 @@
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $book->stok }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right">
 
-                                    <a href="{{ route('admin.books.edit', $book) }}" class="inline-block px-3 py-1 bg-yellow-500 text-white rounded">Edit</a>
-                                    
-                                    <form action="{{ route('admin.books.destroy', $book) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin ingin menghapus buku ini?');">
+                                    <a href="{{ route('admin.books.edit', $book) }}"
+                                        class="inline-block px-3 py-1 bg-yellow-500 text-white rounded">Edit</a>
+
+                                    <form action="{{ route('admin.books.destroy', $book) }}" method="POST"
+                                        class="inline-block" onsubmit="return confirm('Yakin ingin menghapus buku ini?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="px-3 py-1 bg-red-600 text-white rounded">Hapus</button>

@@ -8,11 +8,30 @@ use App\Models\Book;
 
 class BooksController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // pagination 10 per halaman, urut terbaru
-        $books = Book::orderBy('created_at', 'desc')->paginate(10);
-        return view('admin.books.index', compact('books'));
+        $q = $request->query('q');
+
+        $query = Book::query();
+
+        // support soft deletes: only visible jika tidak soft deleted
+        // (Eloquent default sudah exclude soft-deleted if SoftDeletes used)
+
+        if ($q) {
+            $query->where(function($sub) use ($q) {
+                $sub->where('judul', 'like', "%{$q}%")
+                    ->orWhere('pengarang', 'like', "%{$q}%")
+                    ->orWhere('penerbit', 'like', "%{$q}%");
+            });
+        }
+
+        // eager load count of loans (optional) to avoid N+1
+        $books = $query->orderBy('created_at', 'desc')
+                       ->withCount('loans')
+                       ->paginate(12)
+                       ->withQueryString();
+
+        return view('admin.books.index', compact('books', 'q'));
     }
 
     public function create()
@@ -27,6 +46,7 @@ class BooksController extends Controller
             'pengarang' => 'nullable|string|max:255',
             'penerbit' => 'nullable|string|max:255',
             'tahun_terbit' => 'nullable|integer|min:1000|max:' . date('Y'),
+            'path_sampul' => 'nullable|string|max:255',
             'stok' => 'required|integer|min:0',
         ]);
 
@@ -48,6 +68,7 @@ class BooksController extends Controller
             'pengarang' => 'nullable|string|max:255',
             'penerbit' => 'nullable|string|max:255',
             'tahun_terbit' => 'nullable|integer|min:1000|max:' . date('Y'),
+            'path_sampul' => 'nullable|string|max:255',
             'stok' => 'required|integer|min:0',
         ]);
 
