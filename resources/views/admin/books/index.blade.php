@@ -20,7 +20,6 @@
                 </div>
             </form>
 
-
             <!-- flash -->
             @if(session('success'))
                 <div class="mb-4 p-3 bg-green-100 text-green-800 rounded">{{ session('success') }}</div>
@@ -29,60 +28,52 @@
                 <div class="mb-4 p-3 bg-red-100 text-red-800 rounded">{{ session('error') }}</div>
             @endif
 
-            <div class="mb-4 flex justify-between items-center">
-                <div class="text-lg font-medium">Daftar Buku</div>
-                <a href="{{ route('admin.books.create') }}" class="px-4 py-2 bg-blue-600 text-blue rounded">Tambah
+            <div class="mb-4 flex justify-end items-center">
+                <!-- <div class="text-lg font-medium">Daftar Buku</div> -->
+                <a href="{{ route('admin.books.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded"> + Tambah
                     Buku</a>
             </div>
 
-            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+            <div class="bg-white shadow sm:rounded-lg">
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead class="bg-primary text-white">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">No</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Judul</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Pengarang</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Penerbit</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tahun</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Stok</th>
-                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium uppercase">No</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium uppercase">Judul</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium uppercase">Pengarang</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium uppercase">Penerbit</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium uppercase">Tahun</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium uppercase">Stok</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium uppercase">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        @forelse($books as $book)
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    {{ $loop->iteration + ($books->currentPage() - 1) * $books->perPage() }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $book->judul }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $book->pengarang }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $book->penerbit }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $book->tahun_terbit }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $book->stok }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right">
-
+                    <tbody class="divide-y divide-gray-100">
+                        @foreach($books as $book)
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4">{{ $loop->iteration }}</td>
+                                <td class="px-6 py-4 font-semibold">{{ $book->judul }}</td>
+                                <td class="px-6 py-4">{{ $book->pengarang }}</td>
+                                <td class="px-6 py-4">{{ $book->penerbit }}</td>
+                                <td class="px-6 py-4">{{ $book->tahun_terbit }}</td>
+                                <td class="px-6 py-4">{{ $book->stok }}</td>
+                                <td class="px-6 py-4 text-right space-x-2">
                                     <a href="{{ route('admin.books.edit', $book) }}"
-                                        class="inline-block px-3 py-1 bg-yellow-500 text-white rounded">Edit</a>
-
+                                        class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600">Edit</a>
                                     <form action="{{ route('admin.books.destroy', $book) }}" method="POST"
                                         class="inline-block" onsubmit="return confirm('Yakin ingin menghapus buku ini?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="px-3 py-1 bg-red-600 text-white rounded">Hapus</button>
+                                        <button type="submit"
+                                            class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">Hapus</button>
                                     </form>
                                 </td>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="7" class="px-6 py-4 text-center">Belum ada data buku.</td>
-                            </tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
-
-                <div class="p-4">
-                    {{ $books->links() }}
-                </div>
+                    <div class="p-4">
+                        {{ $books->links() }}
+                    </div>
             </div>
         </div>
     </div>

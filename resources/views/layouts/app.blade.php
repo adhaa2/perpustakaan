@@ -14,23 +14,17 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+<body class="bg-gray-100 text-gray-900">
+    @if(Auth::check() && Auth::user()->role === 'admin')
+        @include('layouts.navigation-admin')
+    @else
+        @include('layouts.navigation-user')
+    @endif
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
+    <!-- Main content: jika admin, tambahkan margin-left untuk menghindari sidebar -->
+    <main class="{{ (Auth::check() && Auth::user()->role === 'admin') ? 'md:ml-64' : '' }} container mx-auto mt-6 px-4">
+        {{ $slot }}
+    </main>
+</body>
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
-    </body>
 </html>
